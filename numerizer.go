@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-var singleNumbers = map[string]int64{
+var singleNumbers = map[string]int{
 	"one":   1,
 	"two":   2,
 	"three": 3,
@@ -18,7 +18,7 @@ var singleNumbers = map[string]int64{
 	"nine":  9,
 }
 
-var directNumbers = map[string]int64{
+var directNumbers = map[string]int{
 	"ten":       10,
 	"eleven":    11,
 	"twelve":    12,
@@ -32,7 +32,7 @@ var directNumbers = map[string]int64{
 	"ninteen":   19, // misspelling
 }
 
-var tenPrefixNumbers = map[string]int64{
+var tenPrefixNumbers = map[string]int{
 	"twenty":  20,
 	"thirty":  30,
 	"forty":   40,
@@ -44,7 +44,7 @@ var tenPrefixNumbers = map[string]int64{
 	"ninety":  90,
 }
 
-var largeNumbers = map[string]int64{
+var largeNumbers = map[string]int{
 	"thousand": 1000,
 	"million":  1000000,
 	"billion":  1000000000,
@@ -54,7 +54,7 @@ var largeNumbers = map[string]int64{
 type item struct {
 	typ itemType
 	key string
-	val int64
+	val int
 }
 
 type itemType int
@@ -106,8 +106,8 @@ func (i item) String() string {
 type parser struct {
 	items []item
 	pos   int
-	prev  int64
-	sum   int64
+	prev  int
+	sum   int
 	err   error
 }
 
@@ -143,7 +143,7 @@ func preprocess(s string) string {
 type parseFn func(*parser) parseFn
 
 // Parse parses the provided string to an integer.
-func Parse(s string) (int64, error) {
+func Parse(s string) (int, error) {
 	p := newParser(s)
 	for state := parse; state != nil; {
 		state = state(p)

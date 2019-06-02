@@ -5,7 +5,7 @@ import "testing"
 func TestParse(t *testing.T) {
 	var tests = []struct {
 		in   string
-		want int64
+		want int
 	}{
 		{"zero", 0},
 		{"one", 1},
