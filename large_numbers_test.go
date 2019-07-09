@@ -9,8 +9,10 @@ func TestParseLarge(t *testing.T) {
 		in   string
 		want int
 	}{
-		{"five billion", 5000000000},
-		{"six trillion", 6000000000000},
+		{"six billion", 6000000000},
+		{"seven trillion", 7000000000000},
+		{"eight quadrillion", 8000000000000000},
+		{"nine quintillion two hundred twenty-three quadrillion three hundred seventy-two trillion thirty-six billion eight hundred fifty-four million seven hundred seventy-five thousand eight hundred seven", 9223372036854775807},
 	}
 	for _, tt := range tests {
 		have, err := Parse(tt.in)
