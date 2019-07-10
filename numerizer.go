@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-var singleNumbers = map[string]int{
+var singleNumbers = map[string]int64{
 	"one":   1,
 	"two":   2,
 	"three": 3,
@@ -18,7 +18,7 @@ var singleNumbers = map[string]int{
 	"nine":  9,
 }
 
-var directNumbers = map[string]int{
+var directNumbers = map[string]int64{
 	"ten":       10,
 	"eleven":    11,
 	"twelve":    12,
@@ -32,7 +32,7 @@ var directNumbers = map[string]int{
 	"ninteen":   19, // misspelling
 }
 
-var tenPrefixNumbers = map[string]int{
+var tenPrefixNumbers = map[string]int64{
 	"twenty":  20,
 	"thirty":  30,
 	"forty":   40,
@@ -44,20 +44,24 @@ var tenPrefixNumbers = map[string]int{
 	"ninety":  90,
 }
 
-var largeNumbers = map[string]int{
-	"thousand": 1000,
-	"million":  1000000,
-	"billion":  1000000000,
-	"trillion": 1000000000000,
+// supports up to max signed 64 bit integer
+// 2^63-1 = 9223372036854775807
+var largeNumbers = map[string]int64{
+	"thousand":    1000,
+	"million":     1000000,
+	"billion":     1000000000,
+	"trillion":    1000000000000,
+	"quadrillion": 1000000000000000,
+	"quintillion": 1000000000000000000,
 }
 
 type item struct {
 	typ itemType
 	key string
-	val int
+	val int64
 }
 
-type itemType int
+type itemType int64
 
 const (
 	itemError itemType = iota
@@ -106,8 +110,8 @@ func (i item) String() string {
 type parser struct {
 	items []item
 	pos   int
-	prev  int
-	sum   int
+	prev  int64
+	sum   int64
 	err   error
 }
 
@@ -143,7 +147,7 @@ func preprocess(s string) string {
 type parseFn func(*parser) parseFn
 
 // Parse parses the provided string to an integer.
-func Parse(s string) (int, error) {
+func Parse(s string) (int64, error) {
 	p := newParser(s)
 	for state := parse; state != nil; {
 		state = state(p)
